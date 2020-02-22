@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Forms</h2>
+
+<form action="/post" method="POST" id="form">
+  <label for="Email">Email:</label><br>
+  <input type="email" id="email" name="email"><br>
+  <label for="pass">Password:</label><br>
+  <input type="password" id="password" name="password"><br><br>
+  <input type="submit" value="Submit">
+</form> 
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    // this is for working with json data
+    // $(document).ready(()=>{
+    //     $('#form').submit((e)=>{
+    //         e.preventDefault();
+    //         $.ajax({
+    //             url: '/post',
+    //             type: 'post',
+    //             contentType: 'application/json',
+    //              data: JSON.stringify($('#form').serializeArray()),
+    //              success: (response)=>{
+    //                  console.log('sucess');
+    //                  console.log(response);
+    //              }
+    //         })
+    //     })
+    // })
+</script>
+</body>
+</html>
