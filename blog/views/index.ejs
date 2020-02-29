@@ -16,12 +16,12 @@
             <% for(var i=0; i < publishblog.length; i++) { %>
                 <div class="row">
                     <div class="card m-2 p-2" style="width: 18rem;">
-                        <img class="card-img-top" src="/img/photo-of-city-during-evening-3226403.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="<%=publishblog[i].img_link %>" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title"><%= publishblog[i].title %></h5>
                             <p class="card-text"><%=publishblog[i].des %></p>
                             <p class="card-text"><%=publishblog[i].date.toDateString() %></p>
-                            <button type="submit" class="btn btn-success">Link to go somewhere </button>
+                            <a href="<%=publishblog[i].link %>" class="btn btn-success">Visit website</a>
                         </div>
                     </div>
                     <% } %>

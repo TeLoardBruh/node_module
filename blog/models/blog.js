@@ -15,6 +15,15 @@ let blogBody = new Schema({
         type: Date,
         default: Date.now
     },
+    img_link:
+    {
+        type:String,
+        required:true
+    },
+    link:{
+        type:String,
+        required: true
+    },
     publish:{
         type:Boolean,
         default: false

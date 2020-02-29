@@ -28,18 +28,18 @@ router.get('/postBlog',(req,res)=>{
     })
 })
 router.post('/postBlog',(req,res)=>{
-    let newBlog = new blog({title: req.body.title, des:req.body.des});
+    let newBlog = new blog({title: req.body.title, des:req.body.des, img_link: req.body.img_link, link:req.body.link});
 
-    // console.log(newBlog);
+    console.log(newBlog);
     // res.redirect('/');
     newBlog.save().then(function(result){
         console.log(result);
-        res.redirect('/');
+        res.redirect('/postBlog');
 
     }).catch(function(err){
         console.log(err);
 
-        res.redirect('/');
+        res.redirect('/postBlog');
     })
 })
 

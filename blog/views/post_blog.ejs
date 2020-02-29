@@ -16,9 +16,14 @@
             <div class="form-group">
                 <label for="title">Title : </label>
                 <input type="text" name="title"><br>
+                <label for="img_link">Image Links : </label>
+                <input type="text" name="img_link"><br>
+                <label for="link">Link for web : </label>
+                <input type="text" name="link"><br>
                 <label for="Description">Description:</label>
-
                 <textarea name="des" class="form-control" rows="4" cols="50"></textarea>
+
+                <br>
                 <br>
                 <button type="submit"> Add to list</button>
             </div>
@@ -31,7 +36,7 @@
         <form action="/publishBlog/<%= blogS[i]._id%>/published" method="POST">
             <div class="row">
                 <div class="card m-2 p-2" style="width: 18rem;">
-                    <img class="card-img-top" src="/img/photo-of-city-during-evening-3226403.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="<%=blogS[i].img_link%>" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title"><%= blogS[i].title %></h5>
                         <p class="card-text"><%=blogS[i].des %></p>
@@ -49,7 +54,7 @@
         <form action="/publishBlog/<%= publishblog[i]._id%>/published" method="POST">
             <div class="row">
                 <div class="card m-2 p-2" style="width: 18rem;">
-                    <img class="card-img-top" src="/img/photo-of-city-during-evening-3226403.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="<%=publishblog[i].img_link %>" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title"><%= publishblog[i].title %></h5>
                         <p class="card-text"><%=publishblog[i].des %></p>
