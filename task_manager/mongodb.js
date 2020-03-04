@@ -3,7 +3,8 @@ const express = require('express');
 
 const connectionURL = 'mongodb://127.0.0.1:27017/task_app';
 mongoose.connect(connectionURL, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex:true
 }, (err, client) => {
     if (err) {
         return console.log("Unable to connect to database");
@@ -13,7 +14,8 @@ mongoose.connect(connectionURL, {
     var BookSchema = mongoose.Schema({
         name: String,
         price: Number,
-        quantity: Number
+        quantity: Number,
+        outofstock: Boolean
     });
 
     // compile schema to model
@@ -77,7 +79,7 @@ mongoose.connect(connectionURL, {
         if (err) return console.log(err);
         else console.log("Inserting multiple data in array");
     })
-    
+
     // =============================================insert end
 
     // =============================================
