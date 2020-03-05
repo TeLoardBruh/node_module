@@ -12,10 +12,23 @@ mongoose.connect(connectionURL, {
     console.log("Connected");
     // define Schema
     var BookSchema = mongoose.Schema({
-        name: String,
-        price: Number,
+        name: {
+            type:String,
+            trim: true
+        },
+        price: {
+            type:Number,
+            validate(value){
+                if(value< 0){
+                    throw new Error("price MUST BE POSTIVE");
+                }
+            }
+        },
         quantity: Number,
-        outofstock: Boolean
+        outofstock: {
+            type: Boolean,
+            default: false
+        }
     });
 
     // compile schema to model
