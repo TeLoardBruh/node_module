@@ -1,0 +1,22 @@
+const express = require('express');
+const app = express();
+require("./db/mongoose");
+const User = require('./models/User');
+const Task = require('./models/Task');
+const userRouter = require('./router/userRouter')
+const taskRouter = require('./router/taskRouter')
+
+const port = process.env.PORT || 3000;
+
+
+app.use(express.json());
+// user
+app.use('/users',userRouter);
+
+// task
+app.use('/tasks',taskRouter);
+
+
+app.listen(port,()=>{
+    console.log(`running on http://localhost:3000/`);
+})
