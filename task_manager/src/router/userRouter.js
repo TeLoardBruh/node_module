@@ -1,8 +1,9 @@
 const express = require('express');
 const User = require('../models/User');
+const auth = require('../middleware/auth')
 const router = new express.Router();
 
-router.get('/',async(req,res)=>{
+router.get('/',auth,async(req,res)=>{
     // console.log(req.body);
     try{
         const user = await User.find({});
@@ -17,35 +18,50 @@ router.get('/',async(req,res)=>{
     //     res.status(500).send();
     // });
 })
-router.get('/:id',async(req,res)=>{
-    try{
-        const _id = req.params.id;
-        const user = await User.findById({_id});
-        if(!user) {res.status(400).send()}
-        res.status(201).send(user)
-    } catch(e){
-        res.status(500).send()
-    }
 
-    // console.log(req.body);
-    // console.log(req.params);
-    // const _id = req.params.id;
-    // User.findById({_id}).then((user)=>{
-    //     if(!user){
-    //         res.status(404).send();
-    //     }
-    //     res.send(user)
-    // }).catch((error)=>{
-    //     res.status(500).send();
-    // });
+router.get('/me',auth,async(req,res)=>{
+   res.send(req.user)
+   
+})
+
+router.post('/login',async (req,res)=>{
+    try {
+        const user = await User.findUserByCredentials(req.body.email,req.body.password);
+        const token = await user.generateAuthToken();
+        res.send({user,token});
+    } catch (error) {
+        res.status(400).send();
+    }
+})
+router.post('/logout',auth, async(req,res)=>{
+    try {
+        req.user.tokens = req.user.tokens.filter((token)=>{
+            return token.token != req.token;
+        })
+        await req.user.save();
+        res.send();
+    } catch (error) {
+        res.status(500).send();
+    }
+})
+
+router.post('/logoutAll',auth, async(req,res)=>{
+    try {
+        req.user.tokens = []
+        await req.user.save();
+        res.send();
+    } catch (error) {
+        res.status(500).send();
+    }
 })
 router.post('/postUser',async(req,res)=>{
     const user = new User(req.body)
     try{
         await user.save();
-        res.status(201).send(user)
+        const token = await user.generateAuthToken();
+        res.status(201).send({user,token })
     } catch(e){
-        res.status(500).send()
+        res.status(500).send(e)
     }
 
     // const user = new User(req.body);
@@ -56,7 +72,7 @@ router.post('/postUser',async(req,res)=>{
     // })
 })
 
-router.patch('/updateUser/:id',async(req,res)=>{
+router.patch('/updateUser/me',auth,async(req,res)=>{
     const updates = Object.keys(req.body);
     const allowUpdate = ["name","email","password"];
     const isValidateOperator = updates.every((update)=>{
@@ -66,11 +82,11 @@ router.patch('/updateUser/:id',async(req,res)=>{
         return res.status(400).send({error:"Invalid update"})
     }
     try{
-        const user = await User.findByIdAndUpdate(req.params.id,req.body,{new:true, runValidators:true});
-        if(!user){
-            return res.status('404').send()
-        }
-        res.send(user);
+        updates.forEach((update) => {
+            req.user[update] = req.body[update];
+        });
+        await req.user.save()
+        res.send(req.user);
 
     }
     catch(e){
@@ -78,13 +94,14 @@ router.patch('/updateUser/:id',async(req,res)=>{
     }
 })
 
-router.delete('/deleteUser/:id',async(req,res)=>{
+router.delete('/me',auth,async(req,res)=>{
     try {
-        const user = await User.findByIdAndDelete(req.params.id);
-        if(!user){
-            return res.status(404).send();
-        }
-        res.send(user);
+        // const user = await User.findByIdAndDelete(req.user._id);
+        // if(!user){
+        //     return res.status(404).send();
+        // }
+        await req.user.remove()
+        res.send(req.user);
     } catch (error) {
         res.status(500).send()
     }
