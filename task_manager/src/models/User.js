@@ -48,7 +48,9 @@ const UserSchema = new mongoose.Schema({
             required:true
         }
     }]
-}, )
+}, { 
+    timestamps: true
+})
 
 // set relationship
 // here is localField and foreignField is the relationship that connect with table 

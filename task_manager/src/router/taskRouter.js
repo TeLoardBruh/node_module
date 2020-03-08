@@ -4,10 +4,29 @@ const auth = require('../middleware/auth');
 const router = new express.Router();
 
 router.get('/',auth,async(req,res)=>{
+    const completed = req.query.completed;
+    
+    // setting the result to match as the query
+    // skip also 
+    const match ={}
+    const sort ={}
+    if(completed){
+        match.completed = completed === 'true'
+    }
+    if(req.query.sortBy){
+        const parts = req.query.sortBy.split(':');
+        sort[parts[0]] = parts[1] === 'desc' ? -1 : +1  
+    }
     try{
-        
-        // const task = await Task.findById({_id});
-        await req.user.populate('tasks').execPopulate();
+        await req.user.populate({
+            path:'tasks',
+            match,
+            options:{
+                limit: parseInt(req.query.limit),
+                skip: parseInt(req.query.skip),
+                sort
+            }
+        }).execPopulate();
         res.status(201).send(req.user.tasks)
     } catch(e){
         res.status(500).send()
