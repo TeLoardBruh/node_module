@@ -1,0 +1,83 @@
+const calculateTip = (total,tipPercent = .25)=>{
+    const tips = total * tipPercent;
+    return total + tips;
+}
+
+const FtoC = (temp = 0)=>{
+    return (temp -32)/1.8
+}
+
+const CtoF = (temp = 0)=>{
+    return (temp*1.8)+32;
+}
+
+module.exports = {
+    calculateTip,
+    FtoC,
+    CtoF
+}
+
+
+
+
+
+=============================================================
+const {calculateTip,FtoC,CtoF} = require('../src/math');
+
+test('calculate tips!', ()=>{
+    const total = calculateTip(10, .3);
+    console.log(total);
+    expect(total).toBe(13)
+    // if(total !== 13){
+    //     throw new Error("Total tip should be 13. Got"+total)
+    // }
+})
+
+test('calculate tips! with default tip', ()=>{
+    const total = calculateTip(10);
+    console.log(total);
+    expect(total).toBe(12.5)
+    // if(total !== 13){
+    //     throw new Error("Total tip should be 13. Got"+total)
+    // }
+})
+
+
+test('Fahrenheit to Celsius', ()=>{
+    const temp = FtoC(30);
+    console.log(temp);
+    expect(temp).toBe(-1.11)
+
+})
+
+test('Fahrenheit to Celsius default', ()=>{
+    const temp = FtoC();
+    console.log(temp);
+    expect(temp).toBe(-17.77)
+
+})
+
+test('Celsius to Fahrenheit', ()=>{
+    const temp = CtoF(30);
+    console.log(temp);
+    expect(temp).toBe(86)
+
+})
+
+test('Celsius to Fahrenheit default', ()=>{
+    const temp = CtoF();
+    console.log(temp);
+    expect(temp).toBe(32)
+
+})
+
+
+
+// test('Hello world!',()=>{
+//     console.log("hello world!");
+// })
+
+
+// test('FAIL TASJ!',()=>{
+//     throw new Error("ERROR")
+// })

@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watch --runInBand",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +27,9 @@
     "sharp": "^0.24.1",
     "validator": "^12.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^25.1.0",
+    "supertest": "^4.0.2"
+  },
   "description": ""
 }
