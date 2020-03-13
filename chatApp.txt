@@ -1,0 +1,18 @@
+//Index js
+    socket.emit('countUpdated',count);
+
+    socket.on('increment',()=>{
+        count++;
+        // socket.emit('countUpdated',count);
+        io.emit('countUpdated',count);
+    });
+
+//chat js 
+
+socket.on('countUpdated',(count)=>{
+    console.log("The count has been updated!",count);
+})
+
+document.querySelector('#increment').addEventListener('click',()=>{
+    socket.emit('increment');
+});
